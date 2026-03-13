@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ContactApp</string>
+    <string name="logo">logo</string>
+    <string name="there_is_no_contacts_added_here">There is No Contacts Added Here</string>
+    <string name="floating_action_button">floatingActionButton</string>
+    <string name="delete">Delete</string>
 </resources>
