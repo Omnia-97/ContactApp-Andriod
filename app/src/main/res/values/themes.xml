@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.ContactApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
@@ -7,7 +7,17 @@
         <item name="colorPrimaryVariant">@color/dark_blue</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="android:windowBackground">@color/dark_blue</item>
+        <item name="android:navigationBarColor">@color/dark_blue</item>
     </style>
+
+    <style name="Theme.ContactApp.Splash" parent="Theme.ContactApp">
+        <item name="android:windowDisablePreview">true</item>
+    </style>
+    <!--    <style name="Theme.ContactApp.Splash" parent="Theme.SplashScreen">-->
+    <!--        <item name="windowSplashScreenBackground">@color/dark_blue</item>-->
+    <!--        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_logo</item>-->
+    <!--        <item name="postSplashScreenTheme">@style/Theme.ContactApp</item>-->
+    <!--    </style>-->
 
     <style name="Theme.ContactApp" parent="Base.Theme.ContactApp" />
 </resources>

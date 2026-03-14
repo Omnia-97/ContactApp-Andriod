@@ -26,7 +26,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <com.airbnb.lottie.LottieAnimationView
+                    <!--<com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/iv_contact_image"
                         android:layout_width="110dp"
                         android:layout_height="110dp"
@@ -37,7 +37,36 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="true"
-                        app:lottie_rawRes="@raw/image_not_preview" />
+                        app:lottie_rawRes="@raw/image_not_preview" />-->
+                    <FrameLayout
+                        android:id="@+id/fl_image_container"
+                        android:layout_width="110dp"
+                        android:layout_height="110dp"
+                        android:background="@drawable/bg_image_picker"
+                        android:foreground="@drawable/bg_image_picker"
+                        android:clipToOutline="true"
+                        android:outlineProvider="background"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/iv_contact_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="8dp"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
+                            app:lottie_rawRes="@raw/image_not_preview" />
+
+                        <ImageView
+                            android:id="@+id/iv_selected_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:visibility="gone" />
+
+                    </FrameLayout>
 
                     <TextView
                         android:id="@+id/tv_preview_name"
@@ -49,7 +78,7 @@
                         android:textColor="@color/gold"
                         android:textStyle="normal"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/iv_contact_image"
+                        app:layout_constraintStart_toEndOf="@id/fl_image_container"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <View
@@ -181,10 +210,10 @@
                 android:id="@+id/btn_save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:backgroundTint="@color/gold"
-                android:paddingVertical="14dp"
+                android:paddingVertical="18dp"
                 android:text="Enter user"
                 android:textColor="@color/dark_blue"
                 android:textSize="16sp"

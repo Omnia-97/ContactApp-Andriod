@@ -5,6 +5,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:background="@color/dark_blue"
         android:fitsSystemWindows="true">
 
@@ -12,8 +14,11 @@
             android:id="@+id/iv_logo"
             android:layout_width="wrap_content"
             android:layout_height="39dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
+            android:adjustViewBounds="true"
             android:contentDescription="@string/logo"
+            android:cropToPadding="true"
             android:src="@drawable/ic_logo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -23,28 +28,28 @@
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:visibility="gone"
-            app:lottie_rawRes="@raw/empty_animation"
+            app:layout_constraintBottom_toTopOf="@id/tv_empty"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tv_empty"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"/>
+            app:lottie_rawRes="@raw/empty_animation" />
 
         <TextView
             android:id="@+id/tv_empty"
+            style="@style/TextStyle.Title.Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/there_is_no_contacts_added_here"
             android:textColor="@color/gold"
-            style="@style/TextStyle.Title.Large"
             android:textStyle="normal"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/lottie_empty"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/lottie_empty" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_contacts"
@@ -56,6 +61,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_logo" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_delete"
+            android:visibility="gone"
+            android:contentDescription="@string/delete"
+            app:backgroundTint="@color/error_red"
+            app:tint="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/fab_add"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_add"
