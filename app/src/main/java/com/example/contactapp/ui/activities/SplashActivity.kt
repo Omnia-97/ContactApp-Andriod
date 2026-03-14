@@ -16,6 +16,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
+        //installSplashScreen()
         setContentView(binding.root)
 
         Handler(Looper.getMainLooper()).postDelayed({

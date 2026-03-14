@@ -1,6 +1,7 @@
 package com.example.contactapp.ui.fragments
 
 import android.app.Dialog
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,11 +10,8 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import com.example.contactapp.R
 import com.example.contactapp.data.database.ContactDatabase
 import com.example.contactapp.data.model.Contact
 import com.example.contactapp.databinding.FragmentAddContactBinding
@@ -21,22 +19,28 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
 
 class AddContactFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentAddContactBinding
     private var selectedImageUri: Uri? = null
-
     private val pickImage = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri ->
         uri?.let {
-            selectedImageUri = it
-            binding.ivContactImage.cancelAnimation()
-            binding.ivContactImage.setImageURI(it)
+            val savedPath = saveImageToInternalStorage(it)
+            if (savedPath != null) {
+                selectedImageUri = Uri.fromFile(File(savedPath))
+                binding.ivContactImage.visibility = View.GONE
+                binding.ivSelectedImage.visibility = View.VISIBLE
+                binding.ivSelectedImage.setImageBitmap(
+                    BitmapFactory.decodeFile(savedPath)
+                )
+            }
         }
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -111,7 +115,7 @@ class AddContactFragment : BottomSheetDialogFragment() {
             name = name,
             email = email,
             phone = phone,
-            imagePath = selectedImageUri?.toString()
+            imagePath = selectedImageUri?.path
         )
 
         lifecycleScope.launch {
@@ -119,8 +123,22 @@ class AddContactFragment : BottomSheetDialogFragment() {
                 .contactDao()
                 .insertContact(contact)
 
-            Toast.makeText(requireContext(), "Contact Saved!", Toast.LENGTH_SHORT).show()
             dismiss()
+        }
+    }
+
+    private fun saveImageToInternalStorage(uri: Uri): String? {
+        return try {
+            val inputStream = requireContext().contentResolver.openInputStream(uri)
+            val fileName = "contact_${System.currentTimeMillis()}.jpg"
+            val file = File(requireContext().filesDir, fileName)
+            val outputStream = FileOutputStream(file)
+            inputStream?.copyTo(outputStream)
+            outputStream.close()
+            inputStream?.close()
+            file.absolutePath
+        } catch (e: Exception) {
+            null
         }
     }
 }

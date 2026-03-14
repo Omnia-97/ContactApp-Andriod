@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.contactapp.adapter.ContactsAdapter
 import com.example.contactapp.data.database.ContactDatabase
 import com.example.contactapp.databinding.FragmentHomeBinding
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
@@ -34,6 +35,14 @@ class HomeFragment : Fragment() {
         binding.fabAdd.setOnClickListener {
             AddContactFragment().show(parentFragmentManager, "AddContactFragment")
         }
+        binding.fabDelete.setOnClickListener {
+            lifecycleScope.launch {
+                val dao = ContactDatabase.getDatabase(requireContext()).contactDao()
+                dao.getAllContacts().first().lastOrNull()?.let { contact ->
+                    dao.deleteContact(contact)
+                }
+            }
+        }
     }
 
     private fun setupRecyclerView() {
@@ -56,11 +65,23 @@ class HomeFragment : Fragment() {
                     binding.lottieEmpty.visibility = View.VISIBLE
                     binding.tvEmpty.visibility = View.VISIBLE
                     binding.rvContacts.visibility = View.GONE
+                    binding.fabAdd.visibility = View.VISIBLE
+                    binding.fabDelete.visibility = View.GONE
                 } else {
                     binding.lottieEmpty.visibility = View.GONE
                     binding.tvEmpty.visibility = View.GONE
                     binding.rvContacts.visibility = View.VISIBLE
                     adapter.submitList(contacts)
+                    if (contacts.isEmpty()) {
+                        binding.fabAdd.visibility = View.VISIBLE
+                        binding.fabDelete.visibility = View.GONE
+                    } else if (contacts.size >= 6) {
+                        binding.fabAdd.visibility = View.GONE
+                        binding.fabDelete.visibility = View.VISIBLE
+                    } else {
+                        binding.fabAdd.visibility = View.VISIBLE
+                        binding.fabDelete.visibility = View.VISIBLE
+                    }
                 }
             }
         }

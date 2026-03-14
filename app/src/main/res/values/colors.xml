@@ -9,4 +9,5 @@
     <color name="error_red">#EE4030</color>
     <color name="transparent">#00000000</color>
     <color name="text_color">#E2F4F6</color>
+    <color name="btn_red">#F93E3E</color>
 </resources>
